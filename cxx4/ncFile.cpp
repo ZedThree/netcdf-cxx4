@@ -9,8 +9,6 @@ using namespace std;
 using namespace netCDF;
 using namespace netCDF::exceptions;
 
-int g_ncid = -1;
-
 // destructor
 NcFile::~NcFile()
 {
@@ -31,7 +29,6 @@ void NcFile::close()
 {
   if (!nullObject) {
     ncCheck(nc_close(myId),__FILE__,__LINE__);
-    g_ncid = -1;
   }
 
   nullObject = true;
@@ -60,7 +57,6 @@ void NcFile::open(const string& filePath, int ncFileFlags) {
     close();
 
   ncCheck(nc_open(filePath.c_str(), ncFileFlags, &myId),__FILE__,__LINE__);
-  g_ncid = myId;
 
   nullObject=false;
 }
@@ -90,7 +86,6 @@ void NcFile::open(const string& filePath, const FileMode fMode)
       break;
     }
 
-  g_ncid = myId;
 
   nullObject=false;
 }
@@ -112,7 +107,6 @@ void NcFile::create(const string& filePath, const int ncFileFlags) {
 
   ncCheck(nc_create(filePath.c_str(),ncFileFlags,&myId),__FILE__,__LINE__);
 
-  g_ncid = myId;
 
   nullObject=false;
 }
@@ -154,7 +148,6 @@ void NcFile::open(const string& filePath, const FileMode fMode, const FileFormat
       break;
     }
 
-  g_ncid = myId;
   nullObject=false;
 }
 
